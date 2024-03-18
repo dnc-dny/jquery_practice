@@ -50,14 +50,14 @@ $(function(){
   // onメソッドの中でclickイベントを用いる
   $('#q9 li').on('click',function(){
     //変数にクリックしたインデックス番号を代入
-    var num = $(this).index();
+    const num = $(this).index();
     // アラートにインデックス番号を表示
     alert(num);
   });
   // onメソッドの中でclickイベントを用いる
   $('#q10 li').on('click',function(){
     //変数にクリックしたインデックス番号を代入
-    var num2 = $(this).index();
+    const num2 = $(this).index();
     // q10で取得したインデックス番号と等しいq11のインデックス番号をコンソールに表示
     console.log($('#q11 li').eq(num2));
     // q11のインデックス番号に値する要素にaddClassでlarge-textのクラスを追加

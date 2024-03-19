@@ -19,9 +19,9 @@ $(function(){
   // onメソッドの中でclickイベントを用いる
   $('#q5').on('click',function(){
     // prependメソッド→指定した要素の中の一番最初に追加、appendメソッド→指定した要素の中の一番最後に追加
-    $(this).prepend("DOM\u306e\u4e2d\u306e\u524d").append("DOM\u306e\u4e2d\u306e\u5f8c")
+    $(this).prepend("DOMの中の前").append("DOMの中の後")
     // beforeメソッド→指定した要素の上（前）に追加、afterメソッド→指定した要素の下（後ろ）に追加
-    .before("DOM\u306e\u524d").after("DOM\u306e\u5f8c")
+    .before("DOMの前").after("DOMの後")
   });
   // onメソッドの中でclickイベントを用いる
   $('#q6').on('click',function(){

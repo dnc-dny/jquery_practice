@@ -3,16 +3,16 @@ $(function(){
   // →クリックすると何らかのイベント処理が実行される
   $('.select-box').on('change',function(){
     // クリックしたvalue属性を取得し、変数に代入
-    var value = $(this).val();
+    const value = $(this).val();
     // food-listクラスの子要素を、変数に代入
-    var list = $('.food-list li');
+    const list = $('.food-list li');
     // value属性がallの場合はfood-listクラスの子要素を全て表示する
     'all' === value ? list.show() :
     // value属性がallで無い場合に、food-listクラスの子要素を対象にeachメソッドで繰り返し処理を実行する
     // e→イベントオブジェクト（クリックした要素を取得）、text→food-listクラスの子要素のテキスト
     $.each(list, function(e, text){
       // food-listクラスの子要素のテキストの属性を、変数に代入
-      var type = $(text).data('category-type');
+      const type = $(text).data('category-type');
       // クリックしたvalue属性とfood-listクラスの子要素テキストの属性が一致した場合はテキストを表示
       value === type ? $(text).show() :
       // 一致しなかった場合はテキストを隠す

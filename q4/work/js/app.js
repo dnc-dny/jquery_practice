@@ -1,7 +1,7 @@
 $(function(){
   // navクラスのliセレクタにクリックイベントを用いる
   $('.nav li').click(function(){
-    // navクラスのliセレクタの、クリックした要素のインデックス番号を変数に代入
+    // navクラスのliセレクタの、クリックした要素のインデックス番号を定数に代入
     const num = $('.nav li').index(this);
     // descriptionクラスのliセレクタに、is-hiddenクラスを追加して、表示されている要素を非表示にする
     $('.description li').addClass('is-hidden');

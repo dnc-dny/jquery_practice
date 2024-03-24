@@ -14,22 +14,20 @@ $(function(){
   function result(event) {
     // messageクラスを取り除き、メッセージを削除
     $(".message").remove();
-    // レスポンス内容
-    var response;
     // 入力した値が1以上検索結果として存在する
     0 < (null == (response = event[0].items) ? void 0 : response.length) ?
     // 上記一致する場合は入力した値を対象に繰り返し処理を実行
-    $.each(event[0].items, function (h, c) {
+    $.each(event[0].items, function (create) {
       // HTMLを追加し、定数に代入
       const text = '<li class="lists-item"><div class="list-inner"><p>タイトル：' +
       // タイトルが一致ならそのタイトルを、一致しなかったら文言を追加
-      ((c.title ? c.title : "タイトルなし") + "</p><p>作者：") +
+      ((create.title ? create.title : "タイトルなし") + "</p><p>作者：") +
       // 作者が一致ならその作者を、一致しなかったら文言を追加
-      ((c["dc:creator"] ? c["dc:creator"] : "作者なし") + "</p><p>出版社") +
+      ((create["dc:creator"] ? create["dc:creator"] : "作者なし") + "</p><p>出版社") +
       // 出版社が一致ならその出版社を、一致しなかったら文言を追加
-      ((c["dc:publisher"] ? c["dc:publisher"][0] : "出版社なし") + '</p><a href="') +
+      ((create["dc:publisher"] ? create["dc:publisher"][0] : "出版社なし") + '</p><a href="') +
       // リクエストされたURIにリンクを追加
-      (c.link["@id"] + '" target="_blank">書籍情報</a></div></li>');
+      (create.link["@id"] + '" target="_blank">書籍情報</a></div></li>');
       // listsクラスに変数textのHTML要素を追加
       $(".lists").prepend(text);
     })

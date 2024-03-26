@@ -11,11 +11,12 @@
 // });
 
 $(function(){
+  // 通信が成功した際の関数
   function result(event) {
     // messageクラスを取り除き、メッセージを削除
     $(".message").remove();
-    // 検索結果が存在しない場合
-    if(0 < (null == (response = event[0].items))) {
+    // 入力した値が存在しない場合
+    if(null == (response = event[0].items)) {
       // undefinedを返す
       void 0;
       // 入力した値が1以上検索結果として存在する
@@ -36,7 +37,24 @@ $(function(){
         $(".lists").prepend(text);
       });
     } else {
-      // 一致しない場合は、listsクラスの前に文言を追加
+      // 条件全てに該当しない場合はlistsクラスの前に文言を追加
+      $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
+    };
+  };
+  // 通信が失敗した際の関数
+  function error(response){
+    // listsクラスの子要素を削除する
+    $(".lists").empty();
+    // メッセージクラスを取り除いてメッセージを削除する
+    $(".message").remove();
+    // レスポンス内容が0だった場合、listsクラスの前にメッセージを追加
+    if(0 === response.status){
+      $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
+    } else if(400 === response.status){
+    // レスポンス内容が0ではなく400の場合、listsクラスの前にメッセージを追加
+      $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
+    } else {
+      // レスポンス内容が0でも400でも無い場合、listsクラスの前にメッセージを追加
       $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
     };
   };
@@ -56,22 +74,6 @@ $(function(){
     // 一致した場合は、ページ数に1を足す
     pageCount++;
     }
-    const error =function(response){
-      // listsクラスの子要素を削除する
-      $(".lists").empty();
-      // メッセージクラスを取り除いてメッセージを削除する
-      $(".message").remove();
-      // レスポンス内容が0だった場合、listsクラスの前にメッセージを追加
-      if(0 === response.status){
-        $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
-      } else if(400 === response.status){
-      // レスポンス内容が0ではなく400の場合、listsクラスの前にメッセージを追加
-        $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
-      } else {
-        // レスポンス内容が0でも400でも無い場合、listsクラスの前にメッセージを追加
-        $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
-      };
-    };
     // Ajaxの実行
     $.ajax({
       url: "https://ci.nii.ac.jp/books/opensearch/search?title=" +
@@ -82,7 +84,8 @@ $(function(){
       result(response["@graph"])
     // 通信失敗したときの処理
     }).fail(function (response) {
-      error();
+      // レスポンス内容を引数に指定し、関数errorの呼び出し
+      error(response);
     });
   });
   // リセットボタンにonメソッドを用いてclickイベントを指定する

@@ -15,12 +15,14 @@ $(function(){
   function result(event) {
     // messageクラスを取り除き、メッセージを削除
     $(".message").remove();
+    // responseの変数宣言
+    var response;
     // 入力した値が存在しない場合
-    if(null == (response = event[0].items)) {
+    if(0 < null === (response = event[0].items)) {
       // undefinedを返す
       void 0;
       // 入力した値が1以上検索結果として存在する
-    } else if (0 < response.length) {
+    } else if (response.length) {
       // 上記一致する場合は入力した値を対象に繰り返し処理を実行
       $.each(event[0].items, function (create) {
         // HTMLを追加し、定数に代入
@@ -48,9 +50,9 @@ $(function(){
     // メッセージクラスを取り除いてメッセージを削除する
     $(".message").remove();
     // レスポンス内容が0だった場合、listsクラスの前にメッセージを追加
-    if(0 === response.status){
+    if(response.status === 0){
       $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
-    } else if(400 === response.status){
+    } else if(response.status === 400){
     // レスポンス内容が0ではなく400の場合、listsクラスの前にメッセージを追加
       $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>')
     } else {
@@ -66,9 +68,8 @@ $(function(){
   $(".search-btn").on("click", function () {
     // 検索ボックスに入力した値を取得し、定数に代入
     const searchWord = $("#search-input").val();
-    // 検索ボックスに入力した値と書籍の情報が一致しなかった場合は、ページ数は1、listsの子要素を削除
+    // 検索ボックスに入力した値と書籍の情報が一致しなかった場合は、listsの子要素を削除
     if(searchWord !== book) {
-      pageCount = 1;
       $(".lists").empty();
     } else {
     // 一致した場合は、ページ数に1を足す
@@ -90,10 +91,6 @@ $(function(){
   });
   // リセットボタンにonメソッドを用いてclickイベントを指定する
   $(".reset-btn").on("click", function () {
-    // ページ数は1
-    pageCount = 1;
-    // 書籍の情報は空にする
-    book = "";
     // listsクラスの子要素を削除する
     $(".lists").empty();
     // messageクラスを取り除いて表示されているメッセージを消す

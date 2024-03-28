@@ -75,10 +75,11 @@ $(function(){
     // 一致した場合は、ページ数に1を足す
     pageCount++;
     }
+
     // Ajaxの実行
     $.ajax({
-      url: "https://ci.nii.ac.jp/books/opensearch/search?title=" +
-        e + "&format=json&p=" + pageCount + "&count=20", method: "GET"
+      "url": `https://ci.nii.ac.jp/books/opensearch/search?title=${searchWord}&format=json&p=${pageCount}&count=20`,
+      "method": "GET",
     // 通信成功したときの処理
     }).done(function (response) {
       // レスポンス内容を引数に指定し、関数resultの呼び出し

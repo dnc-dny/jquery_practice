@@ -8,8 +8,9 @@ $(function () {
     // 入力した値の結果が空の状態が1以上であると、undefinedを返し、そうでない場合は検索結果の数を表示する場合
     if (0 < null === (response = event[0].items) ? void 0 : response.length) {
       // 上記一致する場合は入力した値を対象に繰り返し処理を実行
-      $.each(event[0].items, function (create) {
+      $.each(event[0].items, function (a,create) {
         // HTMLを追加し、定数に代入
+        console.log(create);
         const text =
           '<li class="lists-item"><div class="list-inner"><p>タイトル：' +
           // タイトルが一致ならそのタイトルを、一致しなかったら文言を追加
@@ -24,7 +25,6 @@ $(function () {
           (create["link:@id"] + '" target="_blank">書籍情報</a></div></li>');
         // listsクラスに定数textのHTML要素を追加
         $(".lists").prepend(text);
-        console.log(event);
       });
     } else {
       // 条件に該当しない場合はlistsクラスの前に文言を追加

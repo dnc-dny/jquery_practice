@@ -10,7 +10,6 @@ $(function () {
       // 上記一致する場合は入力した値を対象に繰り返し処理を実行
       $.each(event[0].items, function (a,create) {
         // HTMLを追加し、定数に代入
-        console.log(create);
         const text =
           '<li class="lists-item"><div class="list-inner"><p>タイトル：' +
           // タイトルが一致ならそのタイトルを、一致しなかったら文言を追加
@@ -22,7 +21,7 @@ $(function () {
           ((create["dc:publisher"] ? create["dc:publisher"][0] : "出版社なし") +
             '</p><a href="') +
           // リクエストされたURIにリンクを追加
-          (create["link:@id"] + '" target="_blank">書籍情報</a></div></li>');
+          (create["@id"] + '" target="_blank">書籍情報</a></div></li>');
         // listsクラスに定数textのHTML要素を追加
         $(".lists").prepend(text);
       });

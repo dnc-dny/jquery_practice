@@ -85,8 +85,12 @@ $(function () {
       error(response); // レスポンス内容を引数に指定し、関数errorの呼び出し
     });
   });
+  // リセットボタンにonメソッドを用いてclickイベントを指定する
   $(".reset-btn").on("click", function () {
-    // リセットボタンにonメソッドを用いてclickイベントを指定する
+    // ページ数は1
+    pageCount = 1;
+    // 検索結果に表示される書籍 の情報を空にして定数に代入
+    book = "";
     // listsクラスの子要素を削除する
     $(".lists").empty();
     // messageクラスを取り除いて表示されているメッセージを消す

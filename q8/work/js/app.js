@@ -1,8 +1,6 @@
 $(function () {
   // 通信が成功した際の関数
   function result(event) {
-    // messageクラスを取り除き、メッセージを削除
-    $(".message").remove();
     // responseの変数宣言
     var response;
     // 入力した値の結果が空の状態が1以上であると、undefinedを返し、そうでない場合は検索結果の数を表示する場合
@@ -36,8 +34,6 @@ $(function () {
   function error(response) {
     // listsクラスの子要素を削除する
     $(".lists").empty();
-    // メッセージクラスを取り除いてメッセージを削除する
-    $(".message").remove();
     // レスポンス内容が0だった場合、listsクラスの前にメッセージを追加
     if (response.status === 0) {
       $(".lists").before(
@@ -58,15 +54,19 @@ $(function () {
   // ページ数の初期値が1 の情報を定数に代入
   let pageCount = 1;
   // 検索結果に表示される書籍 の情報を空にして定数に代入
-  const book = "";
+  book = "";
+  console.log(book);
   // 検索ボタンにonメソッドを用いてclickイベントを指定する
   $(".search-btn").on("click", function () {
+    // messageクラスを取り除き、メッセージを削除
+    $(".message").remove();
     // 検索ボックスに入力した値を取得し、定数に代入
     const searchWord = $("#search-input").val();
     // 検索ボックスに入力した値が違う検索ワードの場合は、ページ数を1に戻し、listsの子要素を削除
     if (searchWord !== book) {
       pageCount = 1;
       $(".lists").empty();
+      searchWord = book;
     } else {
       // 同じ検索ワードで検索を行う場合はページ数に1を足す
       pageCount++;

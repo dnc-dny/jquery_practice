@@ -55,7 +55,6 @@ $(function () {
   let pageCount = 1;
   // 検索結果に表示される書籍 の情報を空にして定数に代入
   book = "";
-  console.log(book);
   // 検索ボタンにonメソッドを用いてclickイベントを指定する
   $(".search-btn").on("click", function () {
     // messageクラスを取り除き、メッセージを削除
@@ -74,15 +73,17 @@ $(function () {
     // Ajaxの実行
     $.ajax({
       url: `https://ci.nii.ac.jp/books/opensearch/search?title=${searchWord}&format=json&p=${pageCount}&count=20`,
-      method: "GET", // 通信成功したときの処理
+      method: "GET",
     })
+     // 通信成功したときの処理
     .done(function (response) {
       // レスポンス内容を引数に指定し、関数resultの呼び出し
       result(response["@graph"]);
     })
+    // 通信失敗したときの処理
     .fail(function (response) {
-      // 通信失敗したときの処理
-      error(response); // レスポンス内容を引数に指定し、関数errorの呼び出し
+    // レスポンス内容を引数に指定し、関数errorの呼び出し
+      error(response);
     });
   });
   // リセットボタンにonメソッドを用いてclickイベントを指定する

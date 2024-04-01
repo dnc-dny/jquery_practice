@@ -48,6 +48,8 @@ $(function(){
     // 項目名をコンソールに表示
     console.log("購読情報");
     // subscriptionのnameが付いた要素を対象に、選択した値をコンソールに表示
-    console.log($('input[name="subscription"]:checked').val());
+    $('input[name="subscription"]:checked').each(function () {
+      console.log($(this).val());
+    });
   });
 });

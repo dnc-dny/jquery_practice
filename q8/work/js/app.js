@@ -1,12 +1,48 @@
 $(function () {
+    // ページ数の初期値が1 の情報を定数に代入
+    let pageCount = 1;
+    // 検索結果に表示されるひとつ前の情報を空にして定数に代入
+    let prevSearch = "";
+
+
+    // 検索ボタンにonメソッドを用いてclickイベントを指定する
+    $(".search-btn").on("click", function () {
+      // messageクラスを取り除き、メッセージを削除
+      $(".message").remove();
+      // 検索ボックスに入力した値を取得し、定数に代入
+      const searchWord = $("#search-input").val();
+      // 検索ボックスに入力した値が前の値と違う場合は、ページ数を1に戻し、listsの子要素を削除、前の値を入力した値にする
+      if (searchWord !== prevSearch) {
+        pageCount = 1;
+        $(".lists").empty();
+        prevSearch = searchWord;
+      };
+      // Ajaxの実行
+      $.ajax({
+        url: `https://ci.nii.ac.jp/books/opensearch/search?title=${searchWord}&format=json&p=${pageCount}&count=20`,
+        method: "GET",
+      })
+        // 通信成功したときの処理
+        .done(function (response) {
+          // レスポンス内容を引数に指定し、関数resultの呼び出し
+          result(response["@graph"]);
+        })
+        // 通信失敗したときの処理
+        .fail(function (response) {
+          // レスポンス内容を引数に指定し、関数errorの呼び出し
+          error(response);
+        });
+    });
+
+
   // 通信が成功した際の関数
   function result(event) {
-    // responseの変数宣言
-    var response;
-    // 入力した値の結果が空の状態が1以上であると、undefinedを返し、そうでない場合は検索結果の数を表示する場合
-    if (0 < null === (response = event[0].items) ? void 0 : response.length) {
+    // 同じ検索ワードで検索を行う場合はページ数に1を足す
+    pageCount++;
+    // 入力した値の結果の数が1以上である場合
+    if (0 < event[0].items.length) {
       // 上記一致する場合は入力した値を対象に繰り返し処理を実行
-      $.each(event[0].items, function (a,create) {
+      $.each(event[0].items, function (a, create) {
         // HTMLを追加し、定数に代入
         const text =
           '<li class="lists-item"><div class="list-inner"><p>タイトル：' +
@@ -30,6 +66,8 @@ $(function () {
       );
     }
   };
+
+
   // 通信が失敗した際の関数
   function error(response) {
     // listsクラスの子要素を削除する
@@ -51,47 +89,10 @@ $(function () {
       );
     }
   };
-  // ページ数の初期値が1 の情報を定数に代入
-  let pageCount = 1;
-  // 検索結果に表示される書籍 の情報を空にして定数に代入
-  book = "";
-  // 検索ボタンにonメソッドを用いてclickイベントを指定する
-  $(".search-btn").on("click", function () {
-    // messageクラスを取り除き、メッセージを削除
-    $(".message").remove();
-    // 検索ボックスに入力した値を取得し、定数に代入
-    const searchWord = $("#search-input").val();
-    // 検索ボックスに入力した値が違う検索ワードの場合は、ページ数を1に戻し、listsの子要素を削除
-    if (searchWord !== book) {
-      pageCount = 1;
-      $(".lists").empty();
-      searchWord = book;
-    } else {
-      // 同じ検索ワードで検索を行う場合はページ数に1を足す
-      pageCount++;
-    }
-    // Ajaxの実行
-    $.ajax({
-      url: `https://ci.nii.ac.jp/books/opensearch/search?title=${searchWord}&format=json&p=${pageCount}&count=20`,
-      method: "GET",
-    })
-     // 通信成功したときの処理
-    .done(function (response) {
-      // レスポンス内容を引数に指定し、関数resultの呼び出し
-      result(response["@graph"]);
-    })
-    // 通信失敗したときの処理
-    .fail(function (response) {
-    // レスポンス内容を引数に指定し、関数errorの呼び出し
-      error(response);
-    });
-  });
+
+
   // リセットボタンにonメソッドを用いてclickイベントを指定する
   $(".reset-btn").on("click", function () {
-    // ページ数は1
-    pageCount = 1;
-    // 検索結果に表示される書籍 の情報を空にして定数に代入
-    book = "";
     // listsクラスの子要素を削除する
     $(".lists").empty();
     // messageクラスを取り除いて表示されているメッセージを消す
